@@ -7,10 +7,64 @@ let score = 0;
 //[2] - amarelo
 //[3] - azul
 
-const blue = document.querySelector('.blue');
-const red = document.querySelector('.red');
-const green = document.querySelector('.green');
-const yellow = document.querySelector('.yellow');
+//cores
+const blue = document.querySelector('.blue'), 
+red = document.querySelector('.red'), 
+green = document.querySelector('.green'), 
+yellow = document.querySelector('.yellow');
+
+//seleciona notas musicais
+const c4 = 261.6,
+d4 = 293.7,
+e4 = 329.6,
+f4 = 349.2;
+
+//define o tipo
+let context,
+oscillator,
+contextGain,
+x = 1,
+type = 'sine',
+frequency;
+
+//cria som
+function start(){
+    context = new AudioContext();
+    oscillator = context.createOscillator();
+    contextGain = context.createGain();
+    oscillator.frequency.value = frequency;
+    oscillator.type = type;
+    oscillator.connect(contextGain);
+    contextGain.connect(context.destination);
+    oscillator.start(0);
+}
+
+//para o som
+function stop(){
+    start();
+    contextGain.gain.exponentialRampToValueAtTime(
+        0.00001, context.currentTime + x
+        )
+}
+
+//som com o click
+blue.addEventListener('click', function(){
+	frequency = c4;
+  stop();
+});
+red.addEventListener('click', function(){
+	frequency = d4;
+  stop();
+});
+green.addEventListener('click', function(){
+	frequency = e4;
+  stop();
+});
+yellow.addEventListener('click', function(){
+	frequency = f4;
+  stop();
+});
+
 
 //cria ordem aleatoria de cores
 let shuffleOrder = () => {
